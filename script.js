@@ -1,4 +1,4 @@
-var p = 1
+var p = 3
 var n = 0
 var w,bw;
 var a = [];
@@ -70,6 +70,8 @@ function but(x){
         } else {
             a.pop()
         }
+        n = a.length
+        N.value = `${n}`
         if(a.length==0){
             reset_board()
             return
