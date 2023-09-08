@@ -10,9 +10,15 @@ const N = document.getElementById("N")
 P.value = `${p}`
 N.value = `${n}`
 function change_colors(){
-    for(var i=colors.length;i<p;i++){
-        var x = 200*i/(p-1)
-        colors.push(`rgb(${x},${200-x},${200*Math.random()})`)
+    if(colors.length < p){
+        colors = []
+        for(var i=0;i<p;i++){
+            var x = 200*i/(p-1)
+            colors.push(`rgb(${x},${200-x},${200*Math.random()})`)
+        }
+    }
+    while(colors.length > p){
+        colors.pop()
     }
 }
 change_colors()
