@@ -3,7 +3,7 @@ var n = 0
 var w,bw;
 var a = [];
 const P = document.getElementById("P")
-var colors = ['grey']
+var colors = [];
 const T = document.getElementById("Triangle")
 const B = document.getElementById("Buttons")
 const N = document.getElementById("N")
@@ -15,6 +15,7 @@ function change_colors(){
         colors.push(`rgb(${x},${200-x},${200*Math.random()})`)
     }
 }
+change_colors()
 function change_buts(){
     if(p!=Number(P.value)){
         p = Number(P.value);
