@@ -1,26 +1,53 @@
-var p = 3
+var p = 1
+var n = 0
 var w,bw;
 var a = [];
 const P = document.getElementById("P")
-var colors = ["red",'blue','green']
+var colors = ['grey']
 const T = document.getElementById("Triangle")
 const B = document.getElementById("Buttons")
+const N = document.getElementById("N")
+P.value = `${p}`
+N.value = `${n}`
+function change_colors(){
+    for(var i=colors.length;i<p;i++){
+        var x = 200*i/(p-1)
+        colors.push(`rgb(${x},${200-x},${200*Math.random()})`)
+    }
+}
 function change_buts(){
-    p = Number(P.value);
-    console.log(p);
-    colors = []
+    if(p!=Number(P.value)){
+        p = Number(P.value);
+        for(var i=0;i<a.length;i++){
+            a[i] = a[i]%p
+        }
+        resize()
+        change_colors()
+    }
     while(B.firstChild){
         B.removeChild(B.lastChild)
     }
-    resize()
     for(var i=0;i<p;i++){
-        var x = 200*i/(p-1)
-        colors.push(`rgb(${x},${200-x},${200*Math.random()})`)
         but(i);
     }
     but(-1)
+    display()
+    B.style.top = `${0.9*window.innerHeight+(0.1*window.innerHeight-bw)/2}px`
 }
 P.onchange = change_buts
+N.onchange = function(){
+    eval("n = "+N.value+";")
+    N.value = `${n}`
+    var l = a.length
+    for(var i=l;i<n;i++){
+        a.push(Math.floor((p-0.1)*Math.random()))
+    }
+    for(var i=l;i>n;i=i-1){
+        a.pop()
+    }
+    resize()
+    display()
+}
 function but(x){
     var b = document.createElement('button');
     if(x!=-1){
@@ -31,6 +58,12 @@ function but(x){
     b.className = "Buttons"
     b.x = x
     b.style.width = b.style.height = `${bw}px`
+    if(x!=-1){
+        b.style.backgroundColor = colors[x]
+    } else {
+        b.style.backgroundColor = 'white'
+        b.style.color = 'black'
+    }
     b.onclick = function(e){
         if(x!=-1){
             a.push(e.target.x)
@@ -77,11 +110,14 @@ function resize(){
     if(a.length){
         w = tw/a.length
     }
-    bw = Math.min(0.8*window.innerWidth/(p+1),0.1*window.innerHeight)
+    bw = Math.min(0.75*window.innerWidth/(p+1),0.1*window.innerHeight)
     reset_board()
-    a = []
 }
-window.onresize = resize
+window.onresize = function(){
+    resize()
+    change_buts()
+    display()
+}
 function display(){
     L = []
     for(var x in a){
@@ -105,4 +141,5 @@ function display(){
     }
 
 }
+resize()
 change_buts()
